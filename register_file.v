@@ -13,6 +13,8 @@
 // Outputs:
 //  - `A`, `B`: 4-bit read ports feeding the ALU inputs
 
+`timescale 1ns/1ps
+
 module register_file(
   input clk, input load, input WE,
   input [3:0] input_value, alu_out,
