@@ -1,4 +1,6 @@
 // --- DATAPATH MODULE ---
+`timescale 1ns/1ps
+
 module datapath(
 	input clk,
     input load,
