@@ -77,54 +77,19 @@ vvp datapath_sim
 
 ---
 
-## Writing a Testbench
+## Running the Testbench
 
-Create a `tb_datapath.v` file that instantiates the `datapath` module, drives inputs, and checks outputs. A minimal example:
-
-```verilog
-`timescale 1ns/1ps
-
-module tb_datapath;
-    reg clk, load, WE;
-    reg [3:0] input_value;
-    reg [1:0] SELA, SELB, SELD, opcode;
-    wire [3:0] final_result;
-    wire ZF;
-
-    datapath uut (
-        .clk(clk), .load(load), .WE(WE),
-        .input_value(input_value),
-        .SELA(SELA), .SELB(SELB), .SELD(SELD),
-        .opcode(opcode),
-        .final_result(final_result), .ZF(ZF)
-    );
-
-    always #5 clk = ~clk;   // 10 ns clock period
-
-    initial begin
-        clk = 0; WE = 0; load = 1;
-
-        // Load 4 into R0
-        input_value = 4'd4; SELD = 2'b00; WE = 1; @(posedge clk);
-        // Load 3 into R1
-        input_value = 4'd3; SELD = 2'b01; @(posedge clk);
-        WE = 0;
-
-        // ADD R0 + R1 → expect 7
-        SELA = 2'b00; SELB = 2'b01; opcode = 2'b00; load = 0;
-        #2; $display("ADD result: %0d (ZF=%b)", final_result, ZF);
-
-        $finish;
-    end
-endmodule
-```
-
-Compile and run:
+A testbench is included in `datapath_tb.v`. It instantiates the `datapath` module, drives inputs, and verifies outputs.
 
 ```bash
-iverilog -o tb_sim datapath.v tb_datapath.v
+# Compile all source files together with the testbench
+iverilog -o tb_sim alu.v register_file.v datapath.v datapath_tb.v
+
+# Run
 vvp tb_sim
 ```
+
+> To view waveforms, ensure `$dumpfile` / `$dumpvars` are present in `datapath_tb.v` and open the generated `.vcd` file in **GTKWave**.
 
 ---
 
@@ -132,7 +97,10 @@ vvp tb_sim
 
 ```
 .
-├── datapath.v      # Top-level datapath + ALU + register file
+├── alu.v             # ALU module (ADD, SUB, AND, OR + zero flag)
+├── register_file.v   # 4-register file with synchronous write and dual read ports
+├── datapath.v        # Top-level module wiring register file and ALU
+├── datapath_tb.v     # Testbench for the datapath module
 └── README.md
 ```
 
