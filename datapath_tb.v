@@ -8,6 +8,7 @@ module datapath_tb();
 
   reg clk;
   reg load;
+  reg WE;
   reg [3:0] input_value;
   reg [1:0] SELA;
   reg [1:0] SELB;
@@ -38,36 +39,40 @@ module datapath_tb();
   initial begin
 	$dumpfile("datapath.vcd");
     $dumpvars(0, datapath_tb);
-    $dumpvars(0, DUT);
   end
 
   initial begin
-    load = 0;
+    load = 0; WE = 0;             
     input_value = 0;
     SELA = 0;
     SELB = 0;
     SELD = 0;
     opcode = 0;
-   	@(posedge clk);
+    @(posedge clk);
 
+    // Load 4 into Register 0
     load = 1;
+    WE = 1; // Turn WE ON to write
     input_value = 4'd4;
     SELD = 2'b00;
     @(posedge clk);
 
-    
+    // Load 2 into Register 1
     input_value = 4'd2;
     SELD = 2'b01;
     @(posedge clk);
    
+    // Compute 4 + 2
+    WE = 0;
     SELA = 2'b00;
     SELB = 2'b01;
-    opcode = 2'b00;   // ADD
+    opcode = 2'b00;   
    	@(posedge clk);
 
-    
+    // Save the result in register 3
     load = 0;
     SELD = 2'b11;
+    WE = 1;
     @(posedge clk);
 
     $finish;
