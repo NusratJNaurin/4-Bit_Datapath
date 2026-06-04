@@ -21,26 +21,18 @@ module register_file(
   output [3:0] A, B
 );
   
-  reg [3:0] stored_value;
   reg [3:0] registers [3:0];
-  
-  // Data selection MUX: choose between external input and ALU result
-  always @(*) begin
-    stored_value = (load == 1'b0) ? alu_out : input_value;
-  end
   
   // Synchronous write: on rising edge of `clk`, if `WE` is asserted,
   // write the selected `stored_value` into register selected by `SELD`.
   always @(posedge clk) begin
     if (WE) begin
-      case(SELD)
-        2'b00: registers[0] <= stored_value;
-        2'b01: registers[1] <= stored_value;
-        2'b10: registers[2] <= stored_value;
-        2'b11: registers[3] <= stored_value;
-        default: registers[0] <= stored_value;
-      endcase
-    end
+        if (load) begin
+            registers[SELD] <= input_value; 
+        end else begin
+            registers[SELD] <= alu_out;     
+        end
+    end  
   end
   
   // Read ports (combinational): present selected registers on A and B
