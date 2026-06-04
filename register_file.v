@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 // --- REGISTER FILE MODULE ---
 // A small register file with 4 registers (R0..R3).
 // Ports:
@@ -12,9 +14,6 @@
 //  - `SELD`: 2-bit selector choosing destination register for writes
 // Outputs:
 //  - `A`, `B`: 4-bit read ports feeding the ALU inputs
-
-`timescale 1ns/1ps
-
 module register_file(
   input clk, input load, input WE,
   input [3:0] input_value, alu_out,
