@@ -1,10 +1,9 @@
+`timescale 1ns/1ps
 // Simple 4-bit datapath: ALU + Register File
 // - ALU: performs ADD, SUB, AND, OR on 4-bit inputs
 // - Register file: 4 registers (R0..R3), 4-bit each
 // - Datapath: wires the register file to the ALU and exposes
 //   `final_result` (ALU output) and `ZF` (zero flag).
-
-`timescale 1ns/1ps
 
 module datapath(
 	input clk,
