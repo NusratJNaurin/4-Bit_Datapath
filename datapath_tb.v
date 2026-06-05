@@ -28,38 +28,38 @@ module datapath_tb();
     @(posedge clk); 
 
     // ADD TEST CASE
-    load <= 1; WE <= 1;
+    load <= 1; WE <= 1; 
     input_value <= 4'd10; SELD <= 2'b00; @(posedge clk); 
     input_value <= 4'd2;  SELD <= 2'b01; @(posedge clk);
 
     WE <= 0; SELA <= 2'b00; SELB <= 2'b01;
-	opcode <= 2'b00; load <= 0; SELD <= 2'b10; // R3 = R1 + R0 = 10 + 2 = 12 (c)
+	opcode <= 2'b00; 
+    load <= 0; SELD <= 2'b10; // R3 = R1 + R0 = 10 + 2 = 12 (c)
     @(posedge clk);
     
 
     // SUB TEST CASE
-    WE <= 0; SELA <= 2'b00; SELB <= 2'b01;
-    opcode <= 2'b01; load <= 0; SELD <= 2'b11; // R4 = R1 - R2 = 8
+    SELA <= 2'b00; SELB <= 2'b01;
+    opcode <= 2'b01; 
+    SELD <= 2'b11; // R4 = R1 - R2 = 8
     @(posedge clk);
     
 
     // AND TEST CASE
-    load <= 1; WE <= 1;
-    input_value <= 4'd10; SELD <= 2'b10; @(posedge clk); 
-    input_value <= 4'd5; SELD <= 2'b11; @(posedge clk);
+    load <= 1; WE <= 1; SELA = 2'b00; SELB = 2'b00;
+    input_value <= 4'd15; SELD <= 2'b01; @(posedge clk);
+    input_value <= 4'd10; SELD <= 2'b11; @(posedge clk);
 
-    WE <= 0; SELA <= 2'b10; SELB <= 2'b11;
-    opcode <=2'b10; load <= 0; SELD <= 2'b01; // R2 = R3 & R4 = 10 & 5 = 0
+    WE <= 0; SELA <= 2'b01; SELB <= 2'b11;
+    opcode <= 2'b10; 
+    load <= 0; SELD <= 2'b00; // R1 = R2 & R4 = 15 & 10 = 10
     @(posedge clk);
     
 
     // OR TEST CASE
-    load <= 1; WE <= 1;
-    input_value <= 4'b1111; SELD <= 2'b01; @(posedge clk);
-    input_value <= 4'b1010; SELD <= 2'b11; @(posedge clk);
-
-    WE <= 0; SELA <= 2'b01; SELB <= 2'b11;
-    opcode <= 2'b11; load <= 0; SELD <= 2'b00; // R1 = R2 | R4 = 15 | 10 = 1111
+    SELA <= 2'b01; SELB <= 2'b11;
+    opcode <= 2'b11; 
+    SELD <= 2'b00; // R1 = R2 | R4 = 15 | 10 = 1111
     @(posedge clk);
     
 
