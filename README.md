@@ -25,10 +25,11 @@ The datapath consists of three modules:
 
 ## Circuit Design (Logisim)
 
-> Logisim circuit originally designed by Ayat Selim, Nusrat Naurin, and Yasmeen Radwan as part of CMPE263-L51.
+> Logisim circuit originally designed by Ayat Selim, Nusrat Naurin, and Yasmeen Radwan as part of CMPE263-L51 project.
 > The Verilog in this repository is an independent HDL implementation of the same datapath.
 
-![Logisim Datapath](project1.png)
+<img width="6056" height="4008" alt="project1" src="https://github.com/user-attachments/assets/2664ffa0-2c16-4670-8544-ee95feeb37d5" />
+
 
 ---
 
@@ -76,6 +77,12 @@ vvp datapath_sim
 
 > To view waveforms, add `$dumpfile` / `$dumpvars` to your testbench and open the output `.vcd` in **GTKWave**.
 
+### Synthesize (Vivado / Quartus)
+
+1. Create a new RTL project and add `datapath.v` as a design source.
+2. Set `datapath` as the top module.
+3. Run Synthesis → Implementation → Bitstream generation as needed.
+
 ### Simulate on EDA Playground (No Install)
 
 1. Go to [edaplayground.com](https://www.edaplayground.com) and create a free account.
@@ -84,12 +91,6 @@ vvp datapath_sim
 4. Paste the contents of `datapath_tb.v` into the **Testbench** panel.
 5. Check **Open EPWave after run** to view waveforms.
 6. Click **Run**.
-
-### Synthesize (Vivado / Quartus)
-
-1. Create a new RTL project and add `datapath.v` as a design source.
-2. Set `datapath` as the top module.
-3. Run Synthesis → Implementation → Bitstream generation as needed.
 
 ---
 
@@ -107,9 +108,10 @@ vvp tb_sim
 
 > To view waveforms, ensure `$dumpfile` / `$dumpvars` are present in `datapath_tb.v` and open the generated `.vcd` file in **GTKWave**.
 
-The waveform below shows all four ALU operations — ADD (`c`), SUB (`8`), AND (`0`), OR (`f`) — with the Zero Flag (ZF) visibly toggling during the AND operation.
 
-![GTKWave Simulation](gtkwave.png)
+The waveform below shows all four ALU operations — ADD (`c`), SUB (`8`), AND (`a`), OR (`f`).
+
+<img width="2426" height="858" alt="Screenshot 2026-06-05 041450" src="https://github.com/user-attachments/assets/634d3665-1a81-47ae-b9ac-987ecc9e85ec" />
 
 ---
 
@@ -134,9 +136,3 @@ The waveform below shows all four ALU operations — ADD (`c`), SUB (`8`), AND (
 4. Push and open a Pull Request.
 
 Please include a testbench with any new module additions.
-
----
-
-## License
-
-This project is released under the [MIT License](LICENSE).
