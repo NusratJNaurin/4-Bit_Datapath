@@ -1,82 +1,71 @@
 `timescale 1ns/1ps
 
-// Testbench: Datapath
-// - Initializes the register file with two values, performs an ALU ADD,
-//   and writes the ALU result back to a destination register.
-// - Produces `datapath.vcd` for waveform viewing.
 module datapath_tb();
-
-  reg clk;
-  reg load;
-  reg WE;
+	
+  reg clk, load, WE;
   reg [3:0] input_value;
-  reg [1:0] SELA;
-  reg [1:0] SELB;
-  reg [1:0] SELD;
-  reg [1:0] opcode;
-  
+  reg [1:0] SELA, SELB, SELD, opcode;
   wire [3:0] final_result;
   wire ZF;
 
-  // DUT instantiation
   datapath DUT (
-    .clk(clk),
-    .load(load),
+    .clk(clk), .load(load), .WE(WE),
     .input_value(input_value),
-    .SELA(SELA),
-    .SELB(SELB),
-    .SELD(SELD),
+    .SELA(SELA), .SELB(SELB), .SELD(SELD),
     .opcode(opcode),
-    .final_result(final_result),
-    .ZF(ZF)
+    .final_result(final_result), .ZF(ZF)
   );
-  
-  initial begin
-    clk = 0;
-    forever #5 clk = ~clk;
-  end
+
+  initial begin clk = 0; forever #10 clk = ~clk; end
 
   initial begin
-	$dumpfile("datapath.vcd");
+    $dumpfile("datapath.vcd");
     $dumpvars(0, datapath_tb);
   end
 
   initial begin
-    load = 0; WE = 0;             
-    input_value = 0;
-    SELA = 0;
-    SELB = 0;
-    SELD = 0;
-    opcode = 0;
-    @(posedge clk);
+    load = 0; WE = 0;
+    @(posedge clk); 
 
-    // Load 4 into Register 0
-    load = 1;
-    WE = 1; // Turn WE ON to write
-    input_value = 4'd4;
-    SELD = 2'b00;
-    @(posedge clk);
+    // ADD TEST CASE
+    load <= 1; WE <= 1;
+    input_value <= 4'd10; SELD <= 2'b00; @(posedge clk); 
+    input_value <= 4'd2;  SELD <= 2'b01; @(posedge clk);
 
-    // Load 2 into Register 1
-    input_value = 4'd2;
-    SELD = 2'b01;
+    WE <= 0; SELA <= 2'b00; SELB <= 2'b01;
+	opcode <= 2'b00; load <= 0; SELD <= 2'b10; // R3 = R1 + R0 = 10 + 2 = 12 (c)
     @(posedge clk);
-   
-    // Compute 4 + 2
-    WE = 0;
-    SELA = 2'b00;
-    SELB = 2'b01;
-    opcode = 2'b00;   
-   	@(posedge clk);
+    
 
-    // Save the result in register 3
-    load = 0;
-    SELD = 2'b11;
-    WE = 1;
+    // SUB TEST CASE
+    WE <= 0; SELA <= 2'b00; SELB <= 2'b01;
+    opcode <= 2'b01; load <= 0; SELD <= 2'b11; // R4 = R1 - R2 = 8
     @(posedge clk);
+    
 
+    // AND TEST CASE
+    load <= 1; WE <= 1;
+    input_value <= 4'd10; SELD <= 2'b10; @(posedge clk); 
+    input_value <= 4'd5; SELD <= 2'b11; @(posedge clk);
+
+    WE <= 0; SELA <= 2'b10; SELB <= 2'b11;
+    opcode <=2'b10; load <= 0; SELD <= 2'b01; // R2 = R3 & R4 = 10 & 5 = 0
+    @(posedge clk);
+    
+
+    // OR TEST CASE
+    load <= 1; WE <= 1;
+    input_value <= 4'b1111; SELD <= 2'b01; @(posedge clk);
+    input_value <= 4'b1010; SELD <= 2'b11; @(posedge clk);
+
+    WE <= 0; SELA <= 2'b01; SELB <= 2'b11;
+    opcode <= 2'b11; load <= 0; SELD <= 2'b00; // R1 = R2 | R4 = 15 | 10 = 1111
+    @(posedge clk);
+    
+
+    WE <= 0;
+    @(posedge clk);
     $finish;
-
   end
 
 endmodule
