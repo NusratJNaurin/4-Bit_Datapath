@@ -16,7 +16,7 @@ The datapath consists of three modules:
 
 ### ALU Opcodes
 
-| `opcode` | Operation |
+| `opr` | Operation |
 |---|---|
 | 00 | ADD |
 | 01 | SUB |
@@ -36,7 +36,7 @@ The datapath consists of three modules:
 | `SELA` | Input | 2-bit | Selects register for ALU operand A |
 | `SELB` | Input | 2-bit | Selects register for ALU operand B |
 | `SELD` | Input | 2-bit | Selects destination register for write |
-| `opcode` | Input | 2-bit | ALU operation selector |
+| `opr` | Input | 2-bit | ALU operation selector |
 | `final_result` | Output | 4-bit | ALU computation result |
 | `ZF` | Output | 1-bit | Zero flag — high when `final_result == 0` |
 
