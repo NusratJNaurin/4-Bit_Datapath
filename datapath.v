@@ -13,7 +13,7 @@ module datapath(
     input [1:0] SELA,
     input [1:0] SELB,
     input [1:0] SELD,
-    input [1:0] opcode,
+	input [1:0] opr,
   	output [3:0] final_result,
   	output ZF
 );
@@ -38,7 +38,7 @@ module datapath(
   alu ALU(
     .A(A),
     .B(B),
-    .opcode(opcode),
+	.opr(opr),
     .result(alu_out),
     .ZF(ZF)
   );
