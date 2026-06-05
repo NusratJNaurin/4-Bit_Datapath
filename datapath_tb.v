@@ -2,17 +2,17 @@
 
 module datapath_tb();
 	
-  reg clk, load, WE;
-  reg [3:0] input_value;
-  reg [1:0] SELA, SELB, SELD, opcode;
-  wire [3:0] final_result;
-  wire ZF;
+	reg clk, load, WE; 
+	reg [3:0] input_value; 
+	reg [1:0] SELA, SELB, SELD, opr;
+	wire [3:0] final_result;
+	wire ZF;
 
   datapath DUT (
     .clk(clk), .load(load), .WE(WE),
     .input_value(input_value),
     .SELA(SELA), .SELB(SELB), .SELD(SELD),
-    .opcode(opcode),
+	.opr(opr),
     .final_result(final_result), .ZF(ZF)
   );
 
@@ -33,15 +33,15 @@ module datapath_tb();
     input_value <= 4'd2;  SELD <= 2'b01; @(posedge clk);
 
     WE <= 0; SELA <= 2'b00; SELB <= 2'b01;
-	opcode <= 2'b00; 
-    load <= 0; SELD <= 2'b10; // R3 = R1 + R0 = 10 + 2 = 12 (c)
+	opr <= 2'b00; 
+    load <= 0; SELD <= 2'b10; // R2 = R0 + R1 = 10 + 2 = 12 (c)
     @(posedge clk);
     
 
     // SUB TEST CASE
     SELA <= 2'b00; SELB <= 2'b01;
-    opcode <= 2'b01; 
-    SELD <= 2'b11; // R4 = R1 - R2 = 8
+    opr <= 2'b01; 
+    SELD <= 2'b11; // R4 = R0 - R1 = 8
     @(posedge clk);
     
 
@@ -51,15 +51,15 @@ module datapath_tb();
     input_value <= 4'd10; SELD <= 2'b11; @(posedge clk);
 
     WE <= 0; SELA <= 2'b01; SELB <= 2'b11;
-    opcode <= 2'b10; 
-    load <= 0; SELD <= 2'b00; // R1 = R2 & R4 = 15 & 10 = 10
+    opr <= 2'b10; 
+    load <= 0; SELD <= 2'b00; // R0 = R1 & R3 = 15 & 10 = 10
     @(posedge clk);
     
 
     // OR TEST CASE
     SELA <= 2'b01; SELB <= 2'b11;
-    opcode <= 2'b11; 
-    SELD <= 2'b00; // R1 = R2 | R4 = 15 | 10 = 1111
+    opr <= 2'b11; 
+    SELD <= 2'b00; // R0 = R1 | R3 = 15 | 10 = 1111
     @(posedge clk);
     
 
