@@ -15,10 +15,15 @@
 // Outputs:
 //  - `A`, `B`: 4-bit read ports feeding the ALU inputs
 module register_file(
-  input clk, input load, input WE,
-  input [3:0] input_value, alu_out,
-  input [1:0] SELA, SELB, SELD,
-  output [3:0] A, B
+  input        clk, 
+  input        load, 
+  input        WE,
+  input  [3:0] input_value, 
+  input  [3:0] alu_out,       
+  input  [1:0] SELA, 
+  input  [1:0] SELB,          
+  input  [1:0] SELD,          
+  output [3:0] A, output [3:0] B
 );
   
   reg [3:0] registers [3:0];
@@ -28,9 +33,9 @@ module register_file(
   always @(posedge clk) begin
     if (WE) begin
         if (load) begin
-            registers[SELD] <= input_value; 
+            registers[SELD] <= input_value; // Load external data
         end else begin
-            registers[SELD] <= alu_out;     
+            registers[SELD] <= alu_out;     // Save internal ALU data
         end
     end  
   end
