@@ -86,10 +86,10 @@ vvp datapath_sim
 ### Simulate on EDA Playground (No Install)
 
 1. Go to [edaplayground.com](https://www.edaplayground.com) and create a free account.
-2. Under **Tools & Simulators**, select `Icarus Verilog 0.9.7`.
+2. Under **Tools & Simulators**, select `Icarus Verilog 12.0`.
 3. Paste the contents of `alu.v`, `register_file.v`, and `datapath.v` into the **Design** panel.
 4. Paste the contents of `datapath_tb.v` into the **Testbench** panel.
-5. Check **Open EPWave after run** to view waveforms.
+5. Under **Tools & Simulators**, check **Open EPWave after run** to view waveforms.
 6. Click **Run**.
 
 ---
